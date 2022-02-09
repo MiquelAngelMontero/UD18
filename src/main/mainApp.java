@@ -11,40 +11,56 @@ public class mainApp {
 		// TODO Auto-generated method stub
 		
 		//Antes de crear la base de datos la eliminamos si esta existe
-		boolean borrardb = Metodos_BBDD.borrarBBDD("tienda_i");
-		boolean creardb = Metodos_BBDD.crearBBDD("tienda_i");
+		boolean borrardb = Metodos_BBDD.borrarBBDD("PiPro");
+		boolean creardb = Metodos_BBDD.crearBBDD("PiPro");
 		
 		if(creardb) {		
 			System.out.println("La base de datos se ha creado exitosamente");		
 		}
 		
 		//Ejecutamos las sentencias de creacion de tablas
-		boolean creart1 = Metodos_BBDD.ejecutarSentencia("tienda_i",
-				 " CREATE TABLE fabricantes ("
-				+ "  codigo int NOT NULL,"
-				+ "  nombre varchar(100) NOT NULL,"
-				+ "  PRIMARY KEY (codigo)"
-				+ ");"
+		boolean creart1 = Metodos_BBDD.ejecutarSentencia("PiPro",
+				 "CREATE TABLE proveedores ("
+				 + "	id char(4) not null,"
+				 + "    nombre nvarchar(100),"
+				 + "    primary key (id)"
+				 + ");;"
 				);
 		
-		boolean creart2 = Metodos_BBDD.ejecutarSentencia("tienda_i", 
-				"CREATE TABLE articulos ("
-				+ "  codigo int NOT NULL,"
-				+ "  nombre varchar(100) NOT NULL,"
-				+ "  precio int NOT NULL,"
-				+ "  fabricante int NOT NULL,"
-				+ "  PRIMARY KEY (codigo),"
-				+ "  KEY fabricante_idx (fabricante),"
-				+ "  CONSTRAINT fabricante FOREIGN KEY (fabricante) REFERENCES fabricantes (codigo));");		
+		boolean creart2 = Metodos_BBDD.ejecutarSentencia("PiPro", 
+				"CREATE TABLE piezas ("
+				+ "	codigo int not null,"
+				+ "    nombre nvarchar(100),"
+				+ "    primary key (codigo)"
+				+ ");");		
+		
+		boolean creart3 = Metodos_BBDD.ejecutarSentencia("PiPro", 
+				"CREATE TABLE suministra ("
+				+ "	codigoPieza int not null,"
+				+ "    idProveedor char(4) not null primary key,"
+				+ "    precio int,"
+				+ "    constraint codP"
+				+ "		foreign key (codigoPieza)"
+				+ "        references piezas (codigo)"
+				+ "        on update cascade "
+				+ "        on delete no action,"
+				+ "	constraint idProv"
+				+ "		foreign key (idProveedor)"
+				+ "        references proveedores (id)"
+				+ "        on update cascade"
+				+ "        on delete no action"
+				+ ");");	
 		
 		
 		//Insertamos datos
-		boolean insert1 = Metodos_BBDD.ejecutarSentencia("tienda_i", "INSERT INTO fabricantes VALUES (1, \"nombre2\");");
-		boolean insert2 = Metodos_BBDD.ejecutarSentencia("tienda_i", "INSERT INTO articulos VALUES (1, \"nombre1\", 30, 1);");
+		boolean insert1 = Metodos_BBDD.ejecutarSentencia("PiPro", "INSERT INTO proveedores VALUES (\"ABCD\", \"proveedor1\");");
+		boolean insert2 = Metodos_BBDD.ejecutarSentencia("PiPro", "INSERT INTO piezas VALUES (1, \"pieza1\");");
+		boolean insert3 = Metodos_BBDD.ejecutarSentencia("PiPro", "INSERT INTO suministra VALUES (1, \"ABCD\", 70);");
 		
 		//Mostramos las tablas
-		Metodos_BBDD.mostrarValores("tienda_i", "fabricantes", 2);
-		Metodos_BBDD.mostrarValores("tienda_i", "articulos", 4);
+		Metodos_BBDD.mostrarValores("PiPro", "proveedores", 2);
+		Metodos_BBDD.mostrarValores("PiPro", "piezas", 2);
+		Metodos_BBDD.mostrarValores("PiPro", "suministra", 3);
 	
 	}
 
