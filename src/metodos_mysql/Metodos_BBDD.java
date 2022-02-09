@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Metodos_BBDD {
-
+	
+	//Metodo para ejecutar create en la base de datos
 	public static boolean crearBBDD(String nombre) {
 		
 		boolean crear = false;
@@ -31,6 +32,7 @@ public class Metodos_BBDD {
 		
 	}
 	
+	//metodo para ejecutar cualquier sentencia sql
 	public static boolean ejecutarSentencia(String bbdd, String sql) {
 		
 		boolean exito = false;
@@ -57,6 +59,7 @@ public class Metodos_BBDD {
 		
 	}
 	
+	//Metodo para borrar una base de datos
 	public static boolean borrarBBDD(String nombre) {
 		
 		boolean borrar = false;
@@ -81,7 +84,8 @@ public class Metodos_BBDD {
 		
 	}
 	
-	public static void mostrarValores(String bbdd, String tabla) {
+	//Muestra los valores de la tabla indicada por parametro
+	public static void mostrarValores(String bbdd, String tabla, int col) {
 		
 		System.out.println("VALORES DE LA TABLA "+ tabla.toUpperCase());
 		
@@ -100,11 +104,17 @@ public class Metodos_BBDD {
 			java.sql.ResultSet resultSet;
 			resultSet = stm2.executeQuery(query);
 			
+			String resultat = "";
+			
 			while (resultSet.next()) {
 				
-				System.out.println(resultSet.getString(1)+" "+resultSet.getString(2)+" "+resultSet.getString(3)+" "+resultSet.getString(4));
+				for(int i=1; i<col+1; i++) {
+					resultat = resultat +" "+resultSet.getString(i);
+				}
 				
 			}
+			
+			System.out.println(resultat);
 			
 			con.close();
 			
